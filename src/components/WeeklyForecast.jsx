@@ -68,7 +68,7 @@ export default function WeeklyForecast({ data, onToggleForecast }) {
       </div>
       <div className="weekly-grid">
         {daily.time.slice(0, daysToShow).map((date, i) => {
-          const dayName = i === 0 ? 'Heute' : DAYS[new Date(date).getDay()];
+          const dayName = DAYS[new Date(date).getDay()];
           const daytimeCodes = data.hourly ? collectDaytimeCodes(data.hourly, date) : [];
           const precipSum = daily.precipitation_sum?.[i] ?? 0;
           const snowfallSum = daily.snowfall_sum?.[i] ?? 0;
@@ -100,12 +100,12 @@ export default function WeeklyForecast({ data, onToggleForecast }) {
               <div className="weekly-detail">
                 {precipValue > 0 && (
                   <span className="weekly-precip">
-                    {hasSnow ? `${snowfallSum.toFixed(1)}cm` : <><RaindropIcon size={36} /> {precipSum.toFixed(1)}mm³</>}
+                    {hasSnow ? `${snowfallSum.toFixed(1)}cm` : <><span className="detail-icon-wrap"><RaindropIcon size={36} /></span> {precipSum.toFixed(1)}mm³</>}
                   </span>
                 )}
                 {wind > 0 && (
                   <span className="weekly-wind">
-                    <WindIcon size={22} /> {wind}{gust ? `-${gust}` : ''}
+                    <span className="detail-icon-wrap"><WindIcon size={22} /></span> {wind}{gust ? `-${gust}` : ''}
                   </span>
                 )}
               </div>

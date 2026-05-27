@@ -1,5 +1,5 @@
 import { getWeatherState } from '../utils/weatherCodes';
-import { WeatherIcon, WindIcon, HumidityIcon, UVIcon, SunriseIcon, SunsetIcon, RaindropIcon } from '../icons/WeatherIcons';
+import { WeatherIcon, WindIcon, UVIcon, SunriseIcon, SunsetIcon, RaindropIcon } from '../icons/WeatherIcons';
 
 export default function CurrentWeather({ data, cityName }) {
   if (!data) return null;
@@ -59,7 +59,7 @@ export default function CurrentWeather({ data, cityName }) {
           <WindIcon size={48} /> {wind}{gust ? `-${gust}` : ''}
         </span>
         <span className="detail-item detail-humidity">
-          <HumidityIcon size={48} /> <span>{current.relative_humidity_2m}%</span>
+          <RaindropIcon size={48} /> <span>{current.relative_humidity_2m}%</span>
         </span>
         {sunrise && (
           <span className="detail-item">

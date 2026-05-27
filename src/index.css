@@ -162,8 +162,8 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 96px;
-  height: 96px;
+  width: clamp(64px, 22vw, 96px);
+  height: clamp(64px, 22vw, 96px);
 }
 
 .current-temps {
@@ -172,13 +172,13 @@ h1, h2, h3, h4 {
 }
 
 .current-temp {
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 10vw, 4rem);
   font-weight: 700;
   line-height: 1;
 }
 
 .current-feels {
-  font-size: 1rem;
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
   opacity: 0.7;
   margin-top: 4px;
 }
@@ -191,7 +191,7 @@ h1, h2, h3, h4 {
 }
 
 .city-name {
-  font-size: 1.4rem;
+  font-size: clamp(1rem, 4vw, 1.4rem);
   font-weight: 700;
 }
 
@@ -202,7 +202,7 @@ h1, h2, h3, h4 {
 }
 
 .condition-label {
-  font-size: 1.15rem;
+  font-size: clamp(0.85rem, 3vw, 1.15rem);
   opacity: 0.8;
 }
 
@@ -218,17 +218,16 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 1.2rem;
+  font-size: clamp(0.85rem, 3vw, 1.2rem);
   opacity: 0.75;
   white-space: nowrap;
 }
 
 .current-details-grid {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 22px;
-  margin-left: -5px;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  gap: 6px;
   margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -237,19 +236,36 @@ h1, h2, h3, h4 {
 .detail-item {
   display: inline-flex;
   align-items: center;
-  gap: 1px;
-  font-size: 1.2rem;
+  gap: 4px;
+  font-size: clamp(0.7rem, 2.2vw, 1.2rem);
   opacity: 0.75;
   white-space: nowrap;
 }
 
 .detail-item.detail-humidity {
   gap: 0;
-  margin-left: -3px;
 }
 
 .detail-item.detail-humidity > :last-child {
-  margin-left: -8px;
+  margin-left: -10px;
+}
+
+.detail-icon-wrap {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.current-icon svg,
+.hourly-icon svg,
+.weekly-icon svg {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 /* Hourly Forecast */
@@ -296,8 +312,8 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: clamp(40px, 12vw, 56px);
+  height: clamp(40px, 12vw, 56px);
 }
 
 .hourly-temp {
@@ -358,7 +374,7 @@ h1, h2, h3, h4 {
 }
 
 .weekly-day {
-  font-size: 1rem;
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
   font-weight: 600;
   width: 52px;
 }
@@ -367,8 +383,8 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: clamp(40px, 12vw, 56px);
+  height: clamp(40px, 12vw, 56px);
 }
 
 .weekly-temps {
@@ -380,20 +396,20 @@ h1, h2, h3, h4 {
 .weekly-high {
   font-weight: 600;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.15rem;
+  font-size: clamp(0.85rem, 2.8vw, 1.15rem);
 }
 
 .weekly-low {
   opacity: 0.55;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.15rem;
+  font-size: clamp(0.85rem, 2.8vw, 1.15rem);
 }
 
 .weekly-detail {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 4px;
+  align-items: flex-end;
+  gap: 2px;
   margin-left: auto;
 }
 
@@ -402,22 +418,20 @@ h1, h2, h3, h4 {
 .weekly-sunshine {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 4px;
-  font-size: 1.2rem;
+  font-size: clamp(0.7rem, 2.2vw, 1.2rem);
   opacity: 0.6;
   white-space: nowrap;
 }
 
 .weekly-precip {
-  padding-right: 1px;
   gap: 2px;
 }
 
-.weekly-precip > :first-child {
-  transform: translateX(5px);
+.weekly-wind {
+  padding-left: 0;
+  transform: translateX(-10px);
 }
-
 
 .weekly-grid svg * {
   animation-iteration-count: infinite !important;
