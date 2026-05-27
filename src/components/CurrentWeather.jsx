@@ -55,30 +55,32 @@ export default function CurrentWeather({ data, cityName }) {
         </div>
       </div>
       <div className="current-details-grid">
-        <span className="detail-item">
-          <WindIcon size={48} /> {wind}{gust ? `-${gust}` : ''}
-        </span>
-        <span className="detail-item detail-humidity">
-          <RaindropIcon size={48} /> <span>{current.relative_humidity_2m}%</span>
-        </span>
-        {sunrise && (
+        <div className="current-details-content">
           <span className="detail-item">
-            <SunriseIcon size={48} /> {sunrise}
+            <WindIcon size={48} /> {wind}{gust ? `-${gust}` : ''}
           </span>
-        )}
-        {sunset && (
-          <span className="detail-item">
-            <SunsetIcon size={48} /> {sunset}
+          <span className="detail-item detail-humidity">
+            <RaindropIcon size={48} /> <span>{current.relative_humidity_2m}%</span>
           </span>
-        )}
-        {precipValue > 0 && (
-          <span className="detail-item">
-            <RaindropIcon size={24} />
-            {precipType === 'snow'
-              ? `${snowfallCm.toFixed(1)} cm`
-              : `${precipMm.toFixed(1)} mm`}
-          </span>
-        )}
+          {sunrise && (
+            <span className="detail-item">
+              <SunriseIcon size={48} /> {sunrise}
+            </span>
+          )}
+          {sunset && (
+            <span className="detail-item">
+              <SunsetIcon size={48} /> {sunset}
+            </span>
+          )}
+          {precipValue > 0 && (
+            <span className="detail-item">
+              <RaindropIcon size={24} />
+              {precipType === 'snow'
+                ? `${snowfallCm.toFixed(1)} cm`
+                : `${precipMm.toFixed(1)} mm`}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

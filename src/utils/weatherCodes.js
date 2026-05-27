@@ -1,6 +1,7 @@
 const weatherStates = {
   sunny: { label: 'Sonnig', bg: 'sunny' },
   clear: { label: 'Klar', bg: 'night' },
+  mainlyClear: { label: 'Überwiegend klar', bg: 'sunny' },
   partlyCloudy: { label: 'Teilweise bewölkt', bg: 'sunny' },
   cloudy: { label: 'Bewölkt', bg: 'cloudy' },
   overcast: { label: 'Bedeckt', bg: 'cloudy' },
@@ -19,7 +20,9 @@ export function getWeatherState(code, isNight = false) {
   switch (true) {
     case code === 0:
       return isNight ? weatherStates.clear : weatherStates.sunny;
-    case code <= 2:
+    case code === 1:
+      return weatherStates.mainlyClear;
+    case code === 2:
       return weatherStates.partlyCloudy;
     case code === 3:
       return weatherStates.overcast;
@@ -51,7 +54,7 @@ export function getWeatherState(code, isNight = false) {
 export function getWeatherIcon(code, isDay = true) {
   const icons = {
     0:  isDay ? 'meteocons:clear-day-fill' : 'meteocons:clear-night-fill',
-    1:  isDay ? 'meteocons:partly-cloudy-day-fill' : 'meteocons:partly-cloudy-night-fill',
+    1:  isDay ? 'meteocons:clear-day-fill' : 'meteocons:clear-night-fill',
     2:  isDay ? 'meteocons:partly-cloudy-day-fill' : 'meteocons:partly-cloudy-night-fill',
     3:  isDay ? 'meteocons:overcast-day-fill' : 'meteocons:overcast-night-fill',
     45: isDay ? 'meteocons:fog-day-fill' : 'meteocons:fog-night-fill',
@@ -93,11 +96,12 @@ export function getCombinedIcon(codes) {
     drizzle: codes.some(c => c >= 51 && c <= 55),
     fog: codes.some(c => c === 45 || c === 48),
     clear: codes.some(c => c === 0),
-    partlyCloudy: codes.some(c => c === 1 || c === 2),
+    mainlyClear: codes.some(c => c === 1),
+    partlyCloudy: codes.some(c => c === 2),
     overcast: codes.some(c => c === 3),
   };
 
-  const hasSun = has.clear || has.partlyCloudy;
+  const hasSun = has.clear || has.mainlyClear || has.partlyCloudy;
   const prefix = has.overcast && !hasSun ? 'overcast-day' : 'partly-cloudy-day';
 
   if (has.thunderstorm) {
@@ -123,7 +127,7 @@ export function getCombinedIcon(codes) {
   if (has.overcast && hasSun) return 'meteocons:partly-cloudy-day-fill';
   if (has.overcast) return 'meteocons:overcast-day-fill';
   if (has.partlyCloudy) return 'meteocons:partly-cloudy-day-fill';
-  if (has.clear) return 'meteocons:clear-day-fill';
+  if (has.mainlyClear || has.clear) return 'meteocons:clear-day-fill';
 
   return 'meteocons:not-available-fill';
 }

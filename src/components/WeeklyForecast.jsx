@@ -10,12 +10,23 @@ function collectDaytimeCodes(hourly, dateStr) {
     const t = hourly.time[i];
     if (t.startsWith(dateStr)) {
       const h = parseInt(t.slice(11, 13), 10);
-      if (h >= 8 && h <= 20) {
+      if (h >= 6 && h <= 22) {
         codes.push(hourly.weather_code[i]);
       }
     }
   }
   return codes;
+}
+
+function getMostFrequentCode(codes) {
+  if (!codes || codes.length === 0) return null;
+  const freq = {};
+  let max = 0, best = codes[0];
+  for (const c of codes) {
+    freq[c] = (freq[c] || 0) + 1;
+    if (freq[c] > max) { max = freq[c]; best = c; }
+  }
+  return best;
 }
 
 function computeSunshineHours(hourly, dateStr, sunriseTime, sunsetTime) {
@@ -88,7 +99,7 @@ export default function WeeklyForecast({ data, onToggleForecast }) {
             <div key={i} className="weekly-card glass">
               <span className="weekly-day">{dayName}</span>
               <span className="weekly-icon">
-                <WeatherIcon codes={enrichedCodes.length > 0 ? enrichedCodes : undefined} code={daily.weather_code[i]} isDay={true} size={56} />
+                <WeatherIcon code={getMostFrequentCode(enrichedCodes) ?? daily.weather_code[i]} isDay={true} size={56} />
               </span>
               <div className="weekly-temps">
                 <span className="weekly-high">{high}°</span>

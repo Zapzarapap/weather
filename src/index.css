@@ -224,13 +224,16 @@ h1, h2, h3, h4 {
 }
 
 .current-details-grid {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.current-details-content {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-evenly;
   gap: 6px;
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
   transform: translateX(-12px);
 }
 
