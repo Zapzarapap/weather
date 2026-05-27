@@ -23,8 +23,9 @@ export default function HourlyForecast({ data }) {
     if (idx >= hourly.time.length) break;
     const t = times[idx];
     const h = parseInt(t.slice(11, 13), 10);
+    const code = hourly.weather_code[idx];
     const hIsNight = h < 6 || h >= 20;
-    const state = getWeatherState(hourly.weather_code[idx], hIsNight);
+    const state = getWeatherState(code, hIsNight);
     const temp = Math.round(hourly.temperature_2m[idx]);
     const wind = Math.round(hourly.wind_speed_10m[idx]);
     const gust = hourly.wind_gusts_10m ? Math.round(hourly.wind_gusts_10m[idx]) : null;
@@ -36,7 +37,7 @@ export default function HourlyForecast({ data }) {
 
     items.push({
       time: `${h}:00`,
-      code: hourly.weather_code[idx],
+      code,
       isDay: !hIsNight,
       temp,
       wind,

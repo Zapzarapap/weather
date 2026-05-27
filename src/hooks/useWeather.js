@@ -4,7 +4,7 @@ const CURRENT_PARAMS = 'current=temperature_2m,relative_humidity_2m,apparent_tem
 
 const HOURLY_PARAMS = 'hourly=temperature_2m,weather_code,wind_speed_10m,wind_gusts_10m,precipitation_probability,precipitation,snowfall,direct_radiation';
 
-const DAILY_PARAMS = 'daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_mean,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,sunrise,sunset,precipitation_sum,snowfall_sum';
+const DAILY_PARAMS = 'daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_mean,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,sunrise,sunset,sunshine_duration,precipitation_sum,snowfall_sum';
 
 const BASE_PARAMS = `${CURRENT_PARAMS}&${HOURLY_PARAMS}&${DAILY_PARAMS}&timezone=auto`;
 

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { getWeatherState } from '../utils/weatherCodes';
 import { WeatherIcon, WindIcon, RaindropIcon, SunIcon } from '../icons/WeatherIcons';
 
 const DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
@@ -27,23 +26,6 @@ function getMostFrequentCode(codes) {
     if (freq[c] > max) { max = freq[c]; best = c; }
   }
   return best;
-}
-
-function computeSunshineHours(hourly, dateStr, sunriseTime, sunsetTime) {
-  if (!hourly?.direct_radiation || !sunriseTime || !sunsetTime) return 0;
-  const sunriseHour = parseInt(sunriseTime.slice(11, 13), 10);
-  const sunsetHour = parseInt(sunsetTime.slice(11, 13), 10);
-  let hours = 0;
-  for (let i = 0; i < hourly.time.length; i++) {
-    if (hourly.time[i].startsWith(dateStr)) {
-      const h = parseInt(hourly.time[i].slice(11, 13), 10);
-      if (h >= sunriseHour && h < sunsetHour) {
-        const rad = hourly.direct_radiation[i];
-        if (rad != null && rad > 300) hours++;
-      }
-    }
-  }
-  return hours;
 }
 
 export default function WeeklyForecast({ data, onToggleForecast }) {
@@ -89,9 +71,14 @@ export default function WeeklyForecast({ data, onToggleForecast }) {
           const enrichedCodes = (!hasPrecipInCodes && precipSum > 0 && !hasSnow)
             ? [...daytimeCodes, precipSum > 5 ? 63 : 61]
             : daytimeCodes;
+          const hasCodes = enrichedCodes.length > 0;
+          const hasSun = enrichedCodes.some(c => c === 0 || c === 1);
+          const hasPrecip = enrichedCodes.some(c => c >= 51);
+          const useCombined = hasCodes && hasSun && hasPrecip;
           const high = Math.round(daily.temperature_2m_max[i]);
           const low = Math.round(daily.temperature_2m_min[i]);
-          const sunshineHours = data.hourly ? computeSunshineHours(data.hourly, date, daily.sunrise?.[i], daily.sunset?.[i]) : 0;
+          const sunshineDuration = daily.sunshine_duration?.[i];
+          const sunshineHours = sunshineDuration != null ? Math.round(sunshineDuration / 3600) : 0;
           const wind = daily.wind_speed_10m_max ? Math.round(daily.wind_speed_10m_max[i]) : null;
           const gust = daily.wind_gusts_10m_max ? Math.round(daily.wind_gusts_10m_max[i]) : null;
 
@@ -99,7 +86,11 @@ export default function WeeklyForecast({ data, onToggleForecast }) {
             <div key={i} className="weekly-card glass">
               <span className="weekly-day">{dayName}</span>
               <span className="weekly-icon">
-                <WeatherIcon code={getMostFrequentCode(enrichedCodes) ?? daily.weather_code[i]} isDay={true} size={56} />
+                {useCombined ? (
+                  <WeatherIcon codes={enrichedCodes} isDay={true} size={56} />
+                ) : (
+                  <WeatherIcon code={hasCodes ? getMostFrequentCode(enrichedCodes) : daily.weather_code[i]} isDay={true} size={56} />
+                )}
               </span>
               <div className="weekly-temps">
                 <span className="weekly-high">{high}°</span>
