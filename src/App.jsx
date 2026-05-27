@@ -47,6 +47,9 @@ export default function App() {
       if (res.ok) {
         const data = await res.json();
         const name =
+          data.address?.suburb ||
+          data.address?.neighbourhood ||
+          data.address?.city_district ||
           data.address?.city ||
           data.address?.town ||
           data.address?.village ||
